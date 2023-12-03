@@ -1,0 +1,32 @@
+{
+  "name": "mpa-static-template-with-astro-v3",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build && npm run replaceRelativePathInCss && npm run replaceRelativePathInHtml && npm run htmlMinifier",
+    "preview": "astro preview",
+    "astro": "astro",
+    "htmlMinifier": "node _build-options/htmlMinifier.mjs",
+    "replaceRelativePathInCss": "node _build-options/replaceRelativePathInCss.mjs",
+    "replaceRelativePathInHtml": "node _build-options/replaceRelativePathInHtml.mjs"
+  },
+  "dependencies": {
+    "astro": "^3.0.3",
+    "gsap": "^3.12.2",
+    "three": "^0.156.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "dotenv": "^16.3.1",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.4",
+    "html-minifier": "^4.0.0",
+    "postcss-merge-queries": "^1.0.3",
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0",
+    "sass": "^1.66.1",
+    "vite-plugin-glsl": "^1.1.2"
+  }
+}

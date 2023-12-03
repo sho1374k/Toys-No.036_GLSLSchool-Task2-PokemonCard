@@ -1,0 +1,20 @@
+@use "./global/app" as *;
+
+// foundation
+@use "./foundation/root";
+@use "./foundation/reset";
+
+@include pc_w() {
+  .uPcHide {
+    display: none !important;
+  }
+}
+@include sp_w() {
+  .uSpHide {
+    display: none !important;
+  }
+}
+
+.uHidden {
+  display: none !important;
+}

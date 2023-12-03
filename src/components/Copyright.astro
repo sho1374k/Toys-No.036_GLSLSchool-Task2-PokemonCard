@@ -1,0 +1,59 @@
+---
+const date = new Date();
+const year = date.getFullYear();
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
+
+---
+
+<a
+  class="cCopyright"
+  href={SITE_URL}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  ©{year} SHOYA KAJITA.
+</a>
+
+<style lang="scss">
+  @use "../styles/global/_app" as *;
+  a{
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    font-size: 12px;
+    line-height: 100%;
+    font-weight: bold;
+    color: var(--white);
+    width: max-content;
+    height: max-content;
+    @include sp_w(){
+      bottom: 16px;
+      right: 16px;
+    }
+
+    &::before{
+      content: "";
+      pointer-events: none;
+      user-select: none;
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      z-index: 0;
+      margin: auto;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      transform: scale(0,1);
+      transform-origin: left;
+      transition: .4s $easeInOutExpo transform;
+    }
+
+    @include hover(){
+      &::before{
+        transform: scale(1,1);
+      }
+    }
+  }
+</style>

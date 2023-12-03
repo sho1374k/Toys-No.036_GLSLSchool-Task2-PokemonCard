@@ -1,0 +1,44 @@
+@use "./global/app" as *;
+
+html,
+body {
+  user-select: none;
+}
+
+#world {
+  user-select: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  opacity: 0;
+  canvas {
+    user-select: none;
+  }
+  body[data-loaded="1"] & {
+    opacity: 1;
+    transition: 1s ease opacity;
+  }
+}
+
+.lTitle {
+  pointer-events: none;
+  user-select: none;
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 100;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 900;
+  line-height: 100%;
+  text-transform: uppercase;
+  color: var(--white);
+  @include sp_w() {
+    top: 16px;
+    left: 16px;
+  }
+}

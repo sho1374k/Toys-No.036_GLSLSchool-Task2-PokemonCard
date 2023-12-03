@@ -1,0 +1,75 @@
+--- 
+import "../styles/common.scss";
+import Copyright from "../components/Copyright.astro";
+import GitHub from "../components/GitHub.astro";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  themeColor?: string;
+  ogType?: string;
+  ogImg?: string;
+  ogUrl?: string;
+  thumbnail?: string;
+}
+
+const SITE = import.meta.env.SITE;
+const {
+  title = "Toys.No.036 | Pokémon Cards Holographic Effect made with WebGL,Three.js,GLSL | GLSL School Task01. | Shoya Kajita.",
+  description = "Toys.No.036 | Pokémon Cards Holographic Effect made with WebGL,Three.js,GLSL | GLSL School Task01. | Shoya Kajita.",
+  themeColor = "#050510",
+  ogType = "website",
+  ogImg = "assets/img/head/screenshot.webp",
+  ogUrl = import.meta.env.SITE,
+  thumbnail = "assets/img/head/thumbnail.webp",
+} = Astro.props;
+
+const gtag = `<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-VZQVLY3F8E"></script><script>window.dataLayer = window.dataLayer || [];function gtag() {dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-VZQVLY3F8E");</script>`;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    {import.meta.env.PROD && <Fragment set:html={gtag} />}
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="email=no,telephone=no,address=no" />
+    <meta name="theme-color" content={themeColor} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={SITE} />
+    <meta property="og:site_name" content={title} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={SITE + ogImg} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@sho4771k" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="thumbnail" content={SITE + thumbnail} />
+    <meta name="generator" content={Astro.generator} />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="apple-touch-icon" href="/assets/img/head/apple-touch-icon.webp" />
+    <link rel="icon" type="image/svg+xml" href="/assets/img/head/favicon.ico" />
+    <!--
+      <PageMap>
+        <DataObject type="thumbnail">
+          <Attribute name="src" value="https://dev.shoya-kajita.com/assets/img/head/thumbnail.webp"/>
+          <Attribute name="width" value="100"/>
+          <Attribute name="height" value="100"/>
+        </DataObject>
+      </PageMap>
+    -->
+	</head>
+	<body>
+		<slot />
+		<GitHub />
+		<Copyright />
+	</body>
+</html>
