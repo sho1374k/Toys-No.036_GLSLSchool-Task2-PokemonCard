@@ -16,6 +16,7 @@ uniform float uClipNum;
 uniform float uSplitNum;
 uniform float uDissolveProgress;
 uniform float uHover;
+uniform float uSwitchPattern;
 uniform vec2 uPointer;
 uniform vec3 uEdgeColor;
 uniform sampler2D uTextureBg;
@@ -24,6 +25,7 @@ uniform sampler2D uTextureColor;
 uniform sampler2D uTextureHighlight;
 uniform sampler2D uTextureNoise;
 uniform sampler2D uPatternTexture;
+uniform sampler2D uPatternEeveeTexture;
 uniform sampler2D uDissolveTexture;
 
 #include "../_chunk/blend/linear-dodge.glsl"
@@ -142,6 +144,9 @@ void main() {
     uv.y + 1.0 - uPointer.y * 0.02 - 0.02
   );
   vec4 pattern = texture2D(uPatternTexture, patternUv);
+  vec4 patternEevee = texture2D(uPatternEeveeTexture, patternUv);
+
+	pattern = mix(pattern, patternEevee, uSwitchPattern);
 
   float stepUv = 0.2;
   vec2 colorUv = vec2(

@@ -47,6 +47,7 @@ export class Objects {
       dissolve: 0.0,
       hover: 0.0,
       hoverEnable: 0.0,
+      switchPattern: 0.0,
     };
 
     this.stateVector = {
@@ -106,9 +107,31 @@ export class Objects {
       this.createBgMesh();
       await this.createCardMeshs();
       this.setAnime();
+      this.setToggleBtn();
       this.isInitialized = true;
       this.debug();
       resolve();
+    });
+  }
+
+  setToggleBtn() {
+    const DURATION = 1,
+      EASE = "power4.inOut";
+    const toggleBtn = document.getElementById("jsBtnToggle");
+    toggleBtn.addEventListener("click", (e) => {
+      if (e.target.checked) {
+        gsap.to(this.progress, {
+          duration: DURATION,
+          ease: EASE,
+          switchPattern: 1.0,
+        });
+      } else {
+        gsap.to(this.progress, {
+          duration: DURATION,
+          ease: EASE,
+          switchPattern: 0.0,
+        });
+      }
     });
   }
 
@@ -137,6 +160,8 @@ export class Objects {
       this.noiseTexture.wrapS = this.noiseTexture.wrapT = THREE.RepeatWrapping;
       this.patternTexture = await this.loader.toLoadAsyncTexture("assets/img/texture/pattern.webp");
       this.patternTexture.wrapS = this.patternTexture.wrapT = THREE.RepeatWrapping;
+      this.patternEeveeTexture = await this.loader.toLoadAsyncTexture("assets/img/texture/patternEevee.webp");
+      this.patternEeveeTexture.wrapS = this.patternEeveeTexture.wrapT = THREE.RepeatWrapping;
       this.dissolveTexture = await this.loader.toLoadAsyncTexture("assets/img/texture/dissolve.webp");
       this.dissolveTexture.wrapS = this.patternTexture.wrapT = THREE.RepeatWrapping;
       this.floorTexture = await this.loader.toLoadAsyncTexture("assets/img/texture/floor.webp");
@@ -188,6 +213,7 @@ export class Objects {
           uProgress: { value: 1.0 },
           uScale: { value: 1.0 },
           uTime: { value: 0.0 },
+          uSwitchPattern: { value: this.progress.switchPattern },
           uClipNum: { type: "f", value: 0 + 1 },
           uSplitNum: { type: "f", value: CARD_LENGTH },
           uEdgeColor: { value: WebGLParmas.cardMesh.edgeColor },
@@ -197,6 +223,7 @@ export class Objects {
           uTextureHighlight: { value: this.highlightTexture },
           uTextureNoise: { value: this.noiseTexture },
           uPatternTexture: { value: this.patternTexture },
+          uPatternEeveeTexture: { value: this.patternEeveeTexture },
           uDissolveTexture: { value: this.dissolveTexture },
           uPointer: { value: this.pointer.target },
           uDissolveProgress: { value: this.progress.dissolve },
@@ -376,20 +403,20 @@ export class Objects {
   }
 
   setEvent() {
-    window.addEventListener("click", this.onClickRaycast.bind(this));
+    this.stage.renderer.domElement.addEventListener("click", this.onClickRaycast.bind(this));
     if (this.params.isMatchMediaHover) {
       this.isAbleToMotion = true;
-      window.addEventListener("mousemove", this.onMove.bind(this));
+      this.stage.renderer.domElement.addEventListener("mousemove", this.onMove.bind(this));
       if (Config.isPointerDown) {
         this.isAbleToMotion = false;
-        window.addEventListener("mousedown", this.onDown.bind(this), { passive: true });
-        window.addEventListener("mouseup", this.onUp.bind(this));
+        this.stage.renderer.domElement.addEventListener("mousedown", this.onDown.bind(this), { passive: true });
+        this.stage.renderer.domElement.addEventListener("mouseup", this.onUp.bind(this));
       }
     } else {
       this.isAbleToMotion = false;
-      window.addEventListener("touchstart", this.onDown.bind(this));
-      window.addEventListener("touchmove", this.onMove.bind(this), { passive: true });
-      window.addEventListener("touchend", this.onUp.bind(this));
+      this.stage.renderer.domElement.addEventListener("touchstart", this.onDown.bind(this));
+      this.stage.renderer.domElement.addEventListener("touchmove", this.onMove.bind(this), { passive: true });
+      this.stage.renderer.domElement.addEventListener("touchend", this.onUp.bind(this));
     }
   }
 
@@ -623,6 +650,7 @@ export class Objects {
       if (this.isAbleToHover) mesh.lookAt(this.lookAt.vector);
       mesh.material.uniforms.uTime.value = _time;
       mesh.material.uniforms.uPointer.value = this.pointer.target;
+      mesh.material.uniforms.uSwitchPattern.value = this.progress.switchPattern;
     }
     if (this.isAbleToHover) this.toRaycastHover();
   }
